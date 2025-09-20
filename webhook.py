@@ -22,5 +22,9 @@ def webhook():
         SECRET.encode(), raw_data.encode(),hashlib.sha256
     ).hexdigest()
 
+    if not hmac. compare_digest(received_sig, expected_sig):
+        return jsonify({"error":"Invalid Signature"}), 401
+    
+    
     
     
