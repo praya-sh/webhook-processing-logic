@@ -25,6 +25,28 @@ def webhook():
     if not hmac. compare_digest(received_sig, expected_sig):
         return jsonify({"error":"Invalid Signature"}), 401
     
+    try:
+        data = request.get_json(force=True)
+    except Exception:
+        return jsonify({"error":"Invalid json"}), 400
+    
+    event_id = data.get("event_id")
+    if not event_id:
+        return jsonify({"error": "missing event id"}), 400
+    
+    if event_id in processed_events:
+        return jsonify({"status": "duplicate", "event_id": event_id}), 200
+    
+    processed_events.add(event_id)
+
+    print(f"Recieved event: {data}")
+
+    return jsonify({"status":"ok", "received":event_id}), 200
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)
+    
+
     
     
     
