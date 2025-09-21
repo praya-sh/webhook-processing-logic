@@ -64,9 +64,7 @@ def test_unsupported_content_type():
     payload = "Just some plain text"
     send_webhook(payload, "text/plain")
 
-# ------------------------------
-# RUN ALL TESTS
-# ------------------------------
+
 if __name__ == "__main__":
     print("Starting webhook tests...")
     test_valid_json()
